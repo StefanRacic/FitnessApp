@@ -7,15 +7,15 @@ namespace FitnessApp.API.Exercises
 {
     [ApiController]
     [Route("[controller]")]
-    public class ExerciseController : ControllerBase
+    public class ExercisesController : ControllerBase
     {
-        private readonly ILogger<ExerciseController> _logger;
+        private readonly ILogger<ExercisesController> _logger;
         private readonly IGetExerciseListQuery _listQuery;
         private readonly IGetExerciseQuery _itemQuery;
         private readonly ICreateExerciseCommand _command;
 
-        public ExerciseController(
-            ILogger<ExerciseController> logger,
+        public ExercisesController(
+            ILogger<ExercisesController> logger,
             IGetExerciseListQuery listQuery,
             IGetExerciseQuery itemQuery,
             ICreateExerciseCommand command)

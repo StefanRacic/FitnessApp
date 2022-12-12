@@ -7,15 +7,15 @@ namespace FitnessApp.API.Programs
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProgramController : ControllerBase
+    public class ProgramsController : ControllerBase
     {
-        private ILogger<ProgramController> _logger;
+        private ILogger<ProgramsController> _logger;
         private readonly IGetProgramListQuery _listQuery;
         private readonly IGetProgramQuery _itemQuery;
         private readonly ICreateProgramCommand _command;
 
-        public ProgramController(
-            ILogger<ProgramController> logger,
+        public ProgramsController(
+            ILogger<ProgramsController> logger,
             IGetProgramListQuery listQuery,
             IGetProgramQuery itemQuery,
             ICreateProgramCommand command)
