@@ -18,18 +18,17 @@ namespace FitnessApp.Application.LogSets.Queries.GetLogSetListQuery
 
         public List<LogSetListItemModel> Execute(int workoutLogId)
         {
-            //var logSets = _database.SetLogs
-            //    .Where(ls => ls.WorkoutLog.Id == workoutLogId)
-            //    .Select(ls => new LogSetListItemModel
-            //    {
-            //        Id = ls.Id,
-            //        Reps = ls.Reps,
-            //        Weight = ls.Weight
-            //    })
-            //    .ToList();
+            var logSets = _database.SetLogs
+                .Where(ls => ls.WorkoutLog.Id == workoutLogId)
+                .Select(ls => new LogSetListItemModel
+                {
+                    Id = ls.Id,
+                    Reps = ls.Reps,
+                    Weight = ls.Weight
+                })
+                .ToList();
 
-            //return logSets;
-            return new List<LogSetListItemModel>();
+            return logSets;
         }
     }
 }
