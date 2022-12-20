@@ -1,28 +1,27 @@
-﻿using FitnessApp.Application.Interfaces;
+﻿using FitnessApp.Application.Interfaces.UnitOfWork;
 
 namespace FitnessApp.Application.Programs.Queries.GetProgramList
 {
     public class GetProgramListQuery
         : IGetProgramListQuery
     {
-        private readonly IDatabaseService _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetProgramListQuery(IDatabaseService context)
+        public GetProgramListQuery(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
-        public List<ProgramListItemModel> Execute()
+        public async Task<List<ProgramListItemModel>> Execute()
         {
-            var programs = _context.Programs
-                .Select(p => new ProgramListItemModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Description = p.Description
-                });
+            var programs = await _unitOfWork.ProgramRepository.GetAllAsync();
 
-            return programs.ToList();
+            return programs.Select(p => new ProgramListItemModel
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description
+            }).ToList();
         }
     }
 }

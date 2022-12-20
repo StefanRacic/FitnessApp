@@ -28,14 +28,17 @@ namespace FitnessApp.API.Programs
 
         [HttpGet]
         [Route("GetAllPrograms")]
-        public IEnumerable<ProgramListItemModel> GetAll() => _listQuery.Execute();
+        public async Task<IEnumerable<ProgramListItemModel>> GetAll()
+            => await _listQuery.Execute();
 
         [HttpGet]
         [Route("GetProgram")]
-        public ProgramModel Get(int id) => _itemQuery.Execute(id);
+        public async Task<ProgramModel> Get(int id)
+            => await _itemQuery.Execute(id);
 
         [HttpPost]
         [Route("CreateProgram")]
-        public void Create(CreateProgramModel model) => _command.Execute(model);
+        public async Task Create(CreateProgramModel model)
+            => await _command.Execute(model);
     }
 }

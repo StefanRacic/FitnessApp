@@ -1,29 +1,30 @@
-﻿using FitnessApp.Application.Interfaces;
+﻿using FitnessApp.Application.Interfaces.UnitOfWork;
 
 namespace FitnessApp.Application.Programs.Queries.GetProgram
 {
     public class GetProgramQuery : IGetProgramQuery
     {
-        private readonly IDatabaseService _database;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetProgramQuery(IDatabaseService database)
+        public GetProgramQuery(IUnitOfWork unitOfWork)
         {
-            _database = database;
+            _unitOfWork = unitOfWork;
         }
 
-        public ProgramModel Execute(int id)
+        public async Task<ProgramModel> Execute(int id)
         {
-            var program = _database.Programs
-                .Where(p => p.Id.Equals(id))
-                .Select(p => new ProgramModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Description = p.Description,
-                })
-                .Single();
+            var program = await _unitOfWork.ProgramRepository.GetAsync(p => p.Id == id);
 
-            return program;
+            // TODO: add custom exceptions and logging
+            if (program is null)
+                throw new Exception();
+
+            return new ProgramModel
+            {
+                Id = program.Id,
+                Name = program.Name,
+                Description = program.Description,
+            };
         }
     }
 }

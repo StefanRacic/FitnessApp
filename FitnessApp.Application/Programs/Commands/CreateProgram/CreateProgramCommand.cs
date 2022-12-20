@@ -1,30 +1,30 @@
-﻿using FitnessApp.Application.Interfaces;
+﻿using FitnessApp.Application.Interfaces.UnitOfWork;
 using FitnessApp.Application.Programs.Commands.CreateProgram.ProgramFactory;
 
 namespace FitnessApp.Application.Programs.Commands.CreateProgram
 {
     public class CreateProgramCommand : ICreateProgramCommand
     {
-        private readonly IDatabaseService _context;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IProgramFactory _factory;
 
         public CreateProgramCommand(
-            IDatabaseService context,
+            IUnitOfWork unitOfWork,
             IProgramFactory factory)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
             _factory = factory;
         }
 
-        public void Execute(CreateProgramModel model)
+        public async Task Execute(CreateProgramModel model)
         {
             var program = _factory.Create(
                 model.Name,
                 model.Description);
 
-            _context.Programs.Add(program);
+            await _unitOfWork.ProgramRepository.AddAsync(program);
 
-            _context.Save();
+            await _unitOfWork.CommitAsync();
         }
     }
 }

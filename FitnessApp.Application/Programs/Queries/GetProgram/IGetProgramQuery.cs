@@ -2,6 +2,6 @@
 {
     public interface IGetProgramQuery
     {
-        ProgramModel Execute(int id);
+        Task<ProgramModel> Execute(int id);
     }
 }

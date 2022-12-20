@@ -29,22 +29,17 @@ namespace FitnessApp.API.Exercises
         [HttpGet]
         [Route("GetAllExercises")]
         public IEnumerable<ExerciseListItemModel> GetAll()
-        {
-            return _listQuery.Execute();
-        }
+            => _listQuery.Execute();
 
         [HttpGet]
         [Route("GetExercise")]
         public ExerciseModel Get(int id)
-        {
-            return _itemQuery.Execute(id);
-        }
+            => _itemQuery.Execute(id);
+
         [HttpPost]
         [Route("CreateExercie")]
         public void Create(CreateExerciseModel model)
-        {
-            _command.Execute(model);
-        }
+            => _command.Execute(model);
 
     }
 }
