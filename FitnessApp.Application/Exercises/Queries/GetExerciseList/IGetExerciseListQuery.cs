@@ -2,6 +2,6 @@
 {
     public interface IGetExerciseListQuery
     {
-        List<ExerciseListItemModel> Execute();
+        Task<List<ExerciseListItemModel>> Execute();
     }
 }

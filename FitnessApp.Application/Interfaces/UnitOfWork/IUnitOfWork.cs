@@ -6,6 +6,7 @@ namespace FitnessApp.Application.Interfaces.UnitOfWork
     {
         IProgramRepository ProgramRepository { get; }
         IWorkoutRepository WorkoutRepository { get; }
+        IExerciseRepository ExerciseRepository { get; }
         void Commit();
         void Rollback();
         Task CommitAsync();

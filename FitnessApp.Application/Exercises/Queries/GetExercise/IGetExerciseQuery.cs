@@ -2,6 +2,6 @@
 {
     public interface IGetExerciseQuery
     {
-        ExerciseModel Execute(int id);
+        Task<ExerciseModel> ExecuteAsync(int id);
     }
 }
