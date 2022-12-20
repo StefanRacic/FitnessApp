@@ -2,6 +2,6 @@
 {
     public interface IGetWorkoutExerciseQuery
     {
-        WorkoutExerciseModel Execute(int id);
+        Task<WorkoutExerciseModel> Execute(int id);
     }
 }

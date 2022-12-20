@@ -1,30 +1,30 @@
-﻿using FitnessApp.Application.Interfaces;
+﻿using FitnessApp.Application.Interfaces.UnitOfWork;
 
 namespace FitnessApp.Application.WorkoutExercises.Queries.GetWorkoutExercise
 {
     public class GetWorkoutExerciseQuery : IGetWorkoutExerciseQuery
     {
-        private readonly IDatabaseService _database;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetWorkoutExerciseQuery(IDatabaseService database)
+        public GetWorkoutExerciseQuery(IUnitOfWork unitOfWork)
         {
-            _database = database;
+            _unitOfWork = unitOfWork;
         }
 
-        public WorkoutExerciseModel Execute(int id)
+        public async Task<WorkoutExerciseModel> Execute(int id)
         {
-            var workoutExercise = _database.WorkoutExercises
-                .Where(we => we.Id.Equals(id))
-                .Select(we => new WorkoutExerciseModel
-                {
-                    Id = we.Id,
-                    Sets = we.Sets,
-                    ExerciseId = we.ExerciseId,
-                    WorkoutId = we.WorkoutId
-                })
-                .Single();
+            var workoutExercise = await _unitOfWork.WorkoutExerciseRepository.GetAsync(we => we.Id == id);
 
-            return workoutExercise;
+            if (workoutExercise is null)
+                throw new Exception();
+
+            return new WorkoutExerciseModel
+            {
+                Id = id,
+                ExerciseId = workoutExercise.ExerciseId,
+                Sets = workoutExercise.Sets,
+                WorkoutId = workoutExercise.WorkoutId,
+            };
         }
     }
 }

@@ -28,17 +28,17 @@ namespace FitnessApp.API.WorkoutExercises
 
         [HttpGet]
         [Route("GetAllWorkoutExercisesByWorkoutId")]
-        public IEnumerable<WorkoutExerciseListModel> GetAll(int workoutId)
-            => _listQuery.Execute(workoutId);
+        public async Task<IEnumerable<WorkoutExerciseListModel>> GetAll(int workoutId)
+            => await _listQuery.Execute(workoutId);
 
         [HttpGet]
         [Route("GetWorkoutExercise")]
-        public WorkoutExerciseModel Get(int id)
-            => _itemQuery.Execute(id);
+        public async Task<WorkoutExerciseModel> Get(int id)
+            => await _itemQuery.Execute(id);
 
         [HttpPost]
         [Route("CreateWorkoutExercise")]
-        public void Create(CreateWorkoutExerciseModel model)
-            => _command.Execute(model);
+        public async Task Create(CreateWorkoutExerciseModel model)
+            => await _command.Execute(model);
     }
 }

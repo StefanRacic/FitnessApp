@@ -1,4 +1,4 @@
-﻿using FitnessApp.Application.Interfaces;
+﻿using FitnessApp.Application.Interfaces.UnitOfWork;
 using FitnessApp.Application.WorkoutExercises.Commands.CreateWorkoutExercise.WorkoutExerciseFactory;
 
 namespace FitnessApp.Application.WorkoutExercises.Commands.CreateWorkoutExercise
@@ -6,24 +6,22 @@ namespace FitnessApp.Application.WorkoutExercises.Commands.CreateWorkoutExercise
     public class CreateWorkoutExerciseCommand
         : ICreateWorkoutExerciseCommand
     {
-        private readonly IDatabaseService _database;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IWorkoutExerciseFactory _factory;
 
         public CreateWorkoutExerciseCommand(
-            IDatabaseService database,
+            IUnitOfWork unitOfWork,
             IWorkoutExerciseFactory factory)
         {
-            _database = database;
+            _unitOfWork = unitOfWork;
             _factory = factory;
         }
 
-        public void Execute(CreateWorkoutExerciseModel model)
+        public async Task Execute(CreateWorkoutExerciseModel model)
         {
-            var exercise = _database.Exercises
-                .Single(e => e.Id.Equals(model.ExerciseId));
+            var exercise = await _unitOfWork.ExerciseRepository.GetAsync(e => e.Id == model.ExerciseId);
 
-            var workout = _database.Workouts
-                .Single(w => w.Id.Equals(model.WorkoutId));
+            var workout = await _unitOfWork.WorkoutRepository.GetAsync(w => w.Id == model.WorkoutId);
 
             var workoutExercise = _factory.Create(
                 model.Sets,
@@ -31,9 +29,9 @@ namespace FitnessApp.Application.WorkoutExercises.Commands.CreateWorkoutExercise
                 workout
                 );
 
-            _database.WorkoutExercises.Add(workoutExercise);
+            await _unitOfWork.WorkoutExerciseRepository.AddAsync(workoutExercise);
 
-            _database.Save();
+            await _unitOfWork.CommitAsync();
         }
     }
 }
