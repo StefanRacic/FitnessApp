@@ -28,17 +28,17 @@ namespace FitnessApp.API.WorkoutLogs
 
         [HttpGet]
         [Route("GetWorkoutLog")]
-        public WorkoutLogModel Get(int id)
-            => _itemQuery.Execute(id);
+        public async Task<WorkoutLogModel> Get(int id)
+            => await _itemQuery.Execute(id);
 
         [HttpGet]
         [Route("GetAllWorkoutLogs")]
-        public IEnumerable<WorkoutLogListItemModel> GetAll()
-            => _listQuery.Execute();
+        public async Task<IEnumerable<WorkoutLogListItemModel>> GetAll()
+            => await _listQuery.Execute();
 
         [HttpPost]
         [Route("CreateWorkoutLog")]
-        public void Create(CreateWorkoutLogModel model)
-            => _command.Execute(model);
+        public async Task Create(CreateWorkoutLogModel model)
+            => await _command.Execute(model);
     }
 }

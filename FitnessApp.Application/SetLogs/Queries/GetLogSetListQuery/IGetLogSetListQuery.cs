@@ -2,6 +2,6 @@
 {
     public interface IGetLogSetListQuery
     {
-        List<LogSetListItemModel> Execute(int workoutLogId);
+        Task<List<LogSetListItemModel>> Execute(int workoutLogId);
     }
 }

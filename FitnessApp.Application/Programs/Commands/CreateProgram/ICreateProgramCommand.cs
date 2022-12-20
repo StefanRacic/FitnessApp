@@ -2,6 +2,6 @@
 {
     public interface ICreateProgramCommand
     {
-        void Execute(CreateProgramModel model);
+        Task Execute(CreateProgramModel model);
     }
 }

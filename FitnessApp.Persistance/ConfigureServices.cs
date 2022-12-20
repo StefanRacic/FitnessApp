@@ -1,4 +1,5 @@
 ﻿using FitnessApp.Application.Interfaces;
+using FitnessApp.Application.Interfaces.UnitOfWork;
 using FitnessApp.Infrastucture.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,8 @@ namespace FitnessApp.Persistence
 
             services.AddScoped<IDatabaseService>(provider => provider.GetRequiredService<DatabaseService>());
             services.AddScoped<DatabaseInitialiser>();
+
+            services.AddScoped<IUnitOfWork, FitnessApp.Persistence.UnitOfWork.UnitOfWork>();
 
             return services;
         }

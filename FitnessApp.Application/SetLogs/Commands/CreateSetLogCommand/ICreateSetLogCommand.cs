@@ -2,6 +2,6 @@
 {
     public interface ICreateSetLogCommand
     {
-        void Execute(CreateSetLogModel model);
+        Task Execute(CreateSetLogModel model);
     }
 }

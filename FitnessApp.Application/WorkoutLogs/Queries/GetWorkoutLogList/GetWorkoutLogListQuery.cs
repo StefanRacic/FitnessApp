@@ -1,4 +1,4 @@
-﻿using FitnessApp.Application.Interfaces;
+﻿using FitnessApp.Application.Interfaces.UnitOfWork;
 using Microsoft.Extensions.Logging;
 
 namespace FitnessApp.Application.WorkoutLogs.Queries.GetWorkoutLogList
@@ -6,29 +6,27 @@ namespace FitnessApp.Application.WorkoutLogs.Queries.GetWorkoutLogList
     public class GetWorkoutLogListQuery : IGetWorkoutLogListQuery
     {
         private readonly ILogger<GetWorkoutLogListQuery> _logger;
-        private readonly IDatabaseService _database;
+        private readonly IUnitOfWork _unitOfWork;
 
         public GetWorkoutLogListQuery(
             ILogger<GetWorkoutLogListQuery> logger,
-            IDatabaseService database)
+            IUnitOfWork unitOfWork)
         {
             _logger = logger;
-            _database = database;
+            _unitOfWork = unitOfWork;
         }
 
-        public List<WorkoutLogListItemModel> Execute()
+        public async Task<List<WorkoutLogListItemModel>> Execute()
         {
-            var workoutLogs = _database.WorkoutLogs
-                .Select(wl => new WorkoutLogListItemModel
-                {
-                    Id = wl.Id,
-                    Note = wl.Note,
-                    WorkoutDuration = wl.WorkoutDuration,
-                    WorkoutId = wl.Workout.Id
-                })
-                .ToList();
+            var wrl = await _unitOfWork.WorkoutLogRepository.GetAllAsync();
 
-            return workoutLogs;
+            return wrl.Select(wl => new WorkoutLogListItemModel
+            {
+                Id = wl.Id,
+                Note = wl.Note,
+                WorkoutDuration = wl.WorkoutDuration,
+                WorkoutId = wl.WorkoutId,
+            }).ToList();
         }
     }
 }

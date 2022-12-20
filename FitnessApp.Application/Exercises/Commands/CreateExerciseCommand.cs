@@ -1,30 +1,30 @@
 ﻿using FitnessApp.Application.Exercises.Commands.ExerciseFactory;
-using FitnessApp.Application.Interfaces;
+using FitnessApp.Application.Interfaces.UnitOfWork;
 
 namespace FitnessApp.Application.Exercises.Commands
 {
     public class CreateExerciseCommand : ICreateExerciseCommand
     {
-        private readonly IDatabaseService _database;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IExerciseFactory _factory;
 
         public CreateExerciseCommand(
-            IDatabaseService database,
+            IUnitOfWork unitOfWork,
             IExerciseFactory factory)
         {
-            _database = database;
+            _unitOfWork = unitOfWork;
             _factory = factory;
         }
 
-        public void Execute(CreateExerciseModel model)
+        public async Task Execute(CreateExerciseModel model)
         {
             var exercise = _factory.Create(
                 model.Name,
                 model.Description);
 
-            _database.Exercises.Add(exercise);
+            await _unitOfWork.ExerciseRepository.AddAsync(exercise);
 
-            _database.Save();
+            await _unitOfWork.CommitAsync();
         }
     }
 }

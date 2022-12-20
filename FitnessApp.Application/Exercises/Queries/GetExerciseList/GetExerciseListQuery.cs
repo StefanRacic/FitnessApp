@@ -1,28 +1,26 @@
-﻿using FitnessApp.Application.Interfaces;
+﻿using FitnessApp.Application.Interfaces.UnitOfWork;
 
 namespace FitnessApp.Application.Exercises.Queries.GetExerciseList
 {
     public class GetExerciseListQuery : IGetExerciseListQuery
     {
-        private readonly IDatabaseService _database;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetExerciseListQuery(IDatabaseService database)
+        public GetExerciseListQuery(IUnitOfWork unitOfWork)
         {
-            _database = database;
+            _unitOfWork = unitOfWork;
         }
 
-        public List<ExerciseListItemModel> Execute()
+        public async Task<List<ExerciseListItemModel>> Execute()
         {
-            var exercises = _database.Exercises
-                .Select(e => new ExerciseListItemModel
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                    Description = e.Description
-                })
-                .ToList();
+            var exc = await _unitOfWork.ExerciseRepository.GetAllAsync();
 
-            return exercises;
+            return exc.Select(ex => new ExerciseListItemModel
+            {
+                Id = ex.Id,
+                Name = ex.Name,
+                Description = ex.Description,
+            }).ToList();
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IGetLogSetQuery
     {
-        LogSetModel Execute(int id);
+        Task<LogSetModel> Execute(int id);
     }
 }

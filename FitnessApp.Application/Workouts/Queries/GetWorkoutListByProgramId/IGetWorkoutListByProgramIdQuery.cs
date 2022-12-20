@@ -2,6 +2,6 @@
 {
     public interface IGetWorkoutListByProgramIdQuery
     {
-        List<WorkoutListItemByProgramIdModel> Execute(int programId);
+        Task<List<WorkoutListItemByProgramIdModel>> ExecuteAsync(int programId);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FitnessApp.Application.Interfaces;
+using FitnessApp.Application.Interfaces.UnitOfWork;
 using FitnessApp.Application.WorkoutLogs.Commands.CreateWorkoutLog.WorkoutLogFactory;
 using Microsoft.Extensions.Logging;
 
@@ -7,20 +8,23 @@ namespace FitnessApp.Application.WorkoutLogs.Commands.CreateWorkoutLog
     public class CreateWorkoutLogCommand : ICreateWorkoutLogCommand
     {
         private readonly IDatabaseService _database;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IWorkoutLogFactory _factory;
 
         public CreateWorkoutLogCommand(
             ILogger<CreateWorkoutLogCommand> logger,
             IDatabaseService database,
+            IUnitOfWork unitOfWork,
             IWorkoutLogFactory factory)
         {
             _database = database;
+            _unitOfWork = unitOfWork;
             _factory = factory;
         }
 
-        public void Execute(CreateWorkoutLogModel model)
+        public async Task Execute(CreateWorkoutLogModel model)
         {
-            var workout = _database.Workouts.FirstOrDefault(w => w.Id == model.WorkoutId);
+            var workout = await _unitOfWork.WorkoutRepository.GetAsync(w => w.Id == model.WorkoutId);
 
             var workoutLog = _factory.Create(
                 model.Note,
@@ -28,9 +32,9 @@ namespace FitnessApp.Application.WorkoutLogs.Commands.CreateWorkoutLog
                 model.EndDate,
                 workout);
 
-            _database.WorkoutLogs.Add(workoutLog);
+            await _unitOfWork.WorkoutLogRepository.AddAsync(workoutLog);
 
-            _database.Save();
+            await _unitOfWork.CommitAsync();
         }
     }
 }
