@@ -8,6 +8,7 @@ namespace FitnessApp.Application.Interfaces.UnitOfWork
         IWorkoutRepository WorkoutRepository { get; }
         IExerciseRepository ExerciseRepository { get; }
         IWorkoutExerciseRepository WorkoutExerciseRepository { get; }
+        IWorkoutLogRepository WorkoutLogRepository { get; }
         void Commit();
         void Rollback();
         Task CommitAsync();

@@ -3,6 +3,7 @@ using FitnessApp.Application.Interfaces.UnitOfWork;
 using FitnessApp.Persistence.Repositories.Exercises;
 using FitnessApp.Persistence.Repositories.Programs;
 using FitnessApp.Persistence.Repositories.WorkoutExercises;
+using FitnessApp.Persistence.Repositories.WorkoutLogs;
 using FitnessApp.Persistence.Repositories.Workouts;
 
 namespace FitnessApp.Persistence.UnitOfWork
@@ -14,6 +15,7 @@ namespace FitnessApp.Persistence.UnitOfWork
         private IWorkoutRepository _workoutRepository;
         private IExerciseRepository _exerciseRepository;
         private IWorkoutExerciseRepository _workoutExerciseRepository;
+        private IWorkoutLogRepository _workoutLogRepository;
 
         public UnitOfWork(DatabaseService database)
         {
@@ -31,6 +33,9 @@ namespace FitnessApp.Persistence.UnitOfWork
 
         public IWorkoutExerciseRepository WorkoutExerciseRepository
             => _workoutExerciseRepository ?? new WorkoutExerciseRepository(_database);
+
+        public IWorkoutLogRepository WorkoutLogRepository
+            => _workoutLogRepository ?? new WorkoutLogRepository(_database);
 
         public void Commit()
             => _database.SaveChanges();

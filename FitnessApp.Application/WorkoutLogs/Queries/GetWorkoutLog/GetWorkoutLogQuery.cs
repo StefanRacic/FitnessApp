@@ -1,4 +1,4 @@
-﻿using FitnessApp.Application.Interfaces;
+﻿using FitnessApp.Application.Interfaces.UnitOfWork;
 using Microsoft.Extensions.Logging;
 
 namespace FitnessApp.Application.WorkoutLogs.Queries.GetWorkoutLog
@@ -6,20 +6,22 @@ namespace FitnessApp.Application.WorkoutLogs.Queries.GetWorkoutLog
     public class GetWorkoutLogQuery : IGetWorkoutLogQuery
     {
         private readonly ILogger<GetWorkoutLogQuery> _logger;
-        private readonly IDatabaseService _database;
+        private readonly IUnitOfWork _unitOfWork;
 
         public GetWorkoutLogQuery(
             ILogger<GetWorkoutLogQuery> logger,
-            IDatabaseService database)
+            IUnitOfWork unitOfWork)
         {
             _logger = logger;
-            _database = database;
+            _unitOfWork = unitOfWork;
         }
 
-        public WorkoutLogModel Execute(int id)
+        public async Task<WorkoutLogModel> Execute(int id)
         {
-            var workoutLog = _database.WorkoutLogs
-                .FirstOrDefault(wl => wl.Id == id);
+            var workoutLog = await _unitOfWork.WorkoutLogRepository.GetAsync(wl => wl.Id == id);
+
+            if (workoutLog is null)
+                throw new Exception();
 
             return new WorkoutLogModel
             {

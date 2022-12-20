@@ -2,6 +2,6 @@
 {
     public interface ICreateWorkoutLogCommand
     {
-        void Execute(CreateWorkoutLogModel model);
+        Task Execute(CreateWorkoutLogModel model);
     }
 }

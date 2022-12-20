@@ -2,6 +2,6 @@
 {
     public interface IGetWorkoutLogListQuery
     {
-        List<WorkoutLogListItemModel> Execute();
+        Task<List<WorkoutLogListItemModel>> Execute();
     }
 }
