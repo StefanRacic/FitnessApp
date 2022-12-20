@@ -1,33 +1,35 @@
-﻿using FitnessApp.Application.Interfaces;
+﻿using FitnessApp.Application.Interfaces.UnitOfWork;
 using FitnessApp.Application.Workouts.Commands.CreateWorkout.WorkoutFactory;
 
 namespace FitnessApp.Application.Workouts.Commands.CreateWorkout
 {
     public class CreateWorkoutCommand : ICreateWorkoutCommand
     {
-        private readonly IDatabaseService _database;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IWorkoutFactory _factory;
 
         public CreateWorkoutCommand(
-            IDatabaseService database,
+            IUnitOfWork unitOfWork,
             IWorkoutFactory factory)
         {
-            _database = database;
+            _unitOfWork = unitOfWork;
             _factory = factory;
         }
 
-        public void Execute(CreateWorkoutModel model)
+        public async Task Execute(CreateWorkoutModel model)
         {
-            var program = _database.Programs.First(p => p.Id == model.ProgramId);
+            var program = await _unitOfWork
+                .ProgramRepository
+                .GetAsync(p => p.Id == model.ProgramId);
 
             var workout = _factory.Create(
                 model.Name,
                 model.Description,
                 program);
 
-            _database.Workouts.Add(workout);
+            await _unitOfWork.WorkoutRepository.AddAsync(workout);
 
-            _database.Save();
+            await _unitOfWork.CommitAsync();
         }
     }
 }

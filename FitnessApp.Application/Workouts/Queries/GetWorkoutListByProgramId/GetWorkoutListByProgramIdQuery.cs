@@ -1,30 +1,26 @@
-﻿using FitnessApp.Application.Interfaces;
-using Microsoft.Extensions.Logging;
+﻿using FitnessApp.Application.Interfaces.UnitOfWork;
 
 namespace FitnessApp.Application.Workouts.Queries.GetWorkoutListByProgramId
 {
     public class GetWorkoutListByProgramIdQuery : IGetWorkoutListByProgramIdQuery
     {
-        private readonly ILogger<GetWorkoutListByProgramIdQuery> _logger;
-        private readonly IDatabaseService _database;
+        private readonly IUnitOfWork _unitOfWork;
 
         public GetWorkoutListByProgramIdQuery(
-            ILogger<GetWorkoutListByProgramIdQuery> logger,
-            IDatabaseService database)
+            IUnitOfWork unitOfWork)
         {
-            _logger = logger;
-            _database = database;
+            _unitOfWork = unitOfWork;
         }
-        public List<WorkoutListItemByProgramIdModel> Execute(int programId)
+        public async Task<List<WorkoutListItemByProgramIdModel>> ExecuteAsync(int programId)
         {
-            return _database.Workouts
-                .Where(w => w.Program.Id == programId)
-                .Select(w => new WorkoutListItemByProgramIdModel
-                {
-                    Id = w.Id,
-                    Name = w.Name,
-                    Description = w.Description
-                }).ToList();
+            var wrks = await _unitOfWork.WorkoutRepository.GetAllAsync(w => w.Program.Id == programId);
+
+            return wrks.Select(w => new WorkoutListItemByProgramIdModel
+            {
+                Id = w.Id,
+                Name = w.Name,
+                Description = w.Description
+            }).ToList();
         }
     }
 }
