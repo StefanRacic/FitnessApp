@@ -28,17 +28,17 @@ namespace FitnessApp.API.SetLogs
 
         [HttpGet]
         [Route("GetAllSetLogs")]
-        public IEnumerable<LogSetListItemModel> GetAll(int workoutLogId)
-            => _listQuery.Execute(workoutLogId);
+        public async Task<IEnumerable<LogSetListItemModel>> GetAll(int workoutLogId)
+            => await _listQuery.Execute(workoutLogId);
 
         [HttpGet]
         [Route("GetSetLog")]
-        public LogSetModel Get(int id)
-            => _itemQuery.Execute(id);
+        public async Task<LogSetModel> Get(int id)
+            => await _itemQuery.Execute(id);
 
         [HttpPost]
         [Route("CreateSetLog")]
-        public void Create(CreateSetLogModel model)
-            => _command.Execute(model);
+        public async Task Create(CreateSetLogModel model)
+            => await _command.Execute(model);
     }
 }

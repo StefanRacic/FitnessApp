@@ -1,4 +1,4 @@
-﻿using FitnessApp.Application.Interfaces;
+﻿using FitnessApp.Application.Interfaces.UnitOfWork;
 using Microsoft.Extensions.Logging;
 
 namespace FitnessApp.Application.LogSets.Queries.GetLogSetQuery
@@ -6,19 +6,24 @@ namespace FitnessApp.Application.LogSets.Queries.GetLogSetQuery
     public class GetLogSetQuery : IGetLogSetQuery
     {
         private readonly ILogger<GetLogSetQuery> _logger;
-        private readonly IDatabaseService _database;
+        private readonly IUnitOfWork _unitOfWork;
 
         public GetLogSetQuery(
             ILogger<GetLogSetQuery> logger,
-            IDatabaseService database)
+            IUnitOfWork unitOfWork)
         {
             _logger = logger;
-            _database = database;
+            _unitOfWork = unitOfWork;
         }
 
-        public LogSetModel Execute(int id)
+        public async Task<LogSetModel> Execute(int id)
         {
-            var logSet = _database.SetLogs.FirstOrDefault(ls => ls.Id == id);
+            var logSet = await _unitOfWork
+                .SetLogRepository
+                .GetAsync(ls => ls.Id == id);
+
+            if (logSet is null)
+                throw new Exception();
 
             return new LogSetModel
             {

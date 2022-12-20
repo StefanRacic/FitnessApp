@@ -1,4 +1,4 @@
-﻿using FitnessApp.Application.Interfaces;
+﻿using FitnessApp.Application.Interfaces.UnitOfWork;
 using Microsoft.Extensions.Logging;
 
 namespace FitnessApp.Application.LogSets.Queries.GetLogSetListQuery
@@ -6,29 +6,26 @@ namespace FitnessApp.Application.LogSets.Queries.GetLogSetListQuery
     public class GetLogSetListQuery : IGetLogSetListQuery
     {
         private readonly ILogger<GetLogSetListQuery> _logger;
-        private readonly IDatabaseService _database;
+        private readonly IUnitOfWork _unitOfWork;
 
         public GetLogSetListQuery(
             ILogger<GetLogSetListQuery> logger,
-            IDatabaseService database)
+            IUnitOfWork unitOfWork)
         {
             _logger = logger;
-            _database = database;
+            _unitOfWork = unitOfWork;
         }
 
-        public List<LogSetListItemModel> Execute(int workoutLogId)
+        public async Task<List<LogSetListItemModel>> Execute(int workoutLogId)
         {
-            var logSets = _database.SetLogs
-                .Where(ls => ls.WorkoutLog.Id == workoutLogId)
-                .Select(ls => new LogSetListItemModel
-                {
-                    Id = ls.Id,
-                    Reps = ls.Reps,
-                    Weight = ls.Weight
-                })
-                .ToList();
+            var logSets = await _unitOfWork.SetLogRepository.GetAllAsync(sl => sl.WorkoutLog.Id == workoutLogId);
 
-            return logSets;
+            return logSets.Select(ls => new LogSetListItemModel
+            {
+                Id = ls.Id,
+                Reps = ls.Reps,
+                Weight = ls.Weight,
+            }).ToList();
         }
     }
 }
