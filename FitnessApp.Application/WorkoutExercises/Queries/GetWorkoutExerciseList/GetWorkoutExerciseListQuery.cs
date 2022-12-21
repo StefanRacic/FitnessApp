@@ -11,7 +11,7 @@ namespace FitnessApp.Application.WorkoutExercises.Queries.GetWorkoutExerciseList
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<WorkoutExerciseListModel>> Execute(int workoutId)
+        public async Task<IReadOnlyList<WorkoutExerciseListModel>> Execute(int workoutId)
         {
             var workoutExercises = await _unitOfWork.WorkoutExerciseRepository.GetAllAsync();
 

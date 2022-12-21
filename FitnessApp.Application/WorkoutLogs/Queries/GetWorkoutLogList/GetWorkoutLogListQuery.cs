@@ -16,7 +16,7 @@ namespace FitnessApp.Application.WorkoutLogs.Queries.GetWorkoutLogList
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<WorkoutLogListItemModel>> Execute()
+        public async Task<IReadOnlyList<WorkoutLogListItemModel>> Execute()
         {
             var wrl = await _unitOfWork.WorkoutLogRepository.GetAllAsync();
 

@@ -12,7 +12,7 @@ namespace FitnessApp.Application.Programs.Queries.GetProgramList
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<ProgramListItemModel>> Execute()
+        public async Task<IReadOnlyList<ProgramListItemModel>> Execute()
         {
             var programs = await _unitOfWork.ProgramRepository.GetAllAsync();
 

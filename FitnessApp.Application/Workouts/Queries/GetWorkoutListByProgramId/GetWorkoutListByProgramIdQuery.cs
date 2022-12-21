@@ -11,11 +11,11 @@ namespace FitnessApp.Application.Workouts.Queries.GetWorkoutListByProgramId
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<List<WorkoutListItemByProgramIdModel>> ExecuteAsync(int programId)
+        public async Task<IReadOnlyList<WorkoutListItemByProgramIdModel>> ExecuteAsync(int programId)
         {
-            var wrks = await _unitOfWork.WorkoutRepository.GetAllAsync(w => w.Program.Id == programId);
+            var workouts = await _unitOfWork.WorkoutRepository.GetAllAsync(w => w.Program.Id == programId);
 
-            return wrks.Select(w => new WorkoutListItemByProgramIdModel
+            return workouts.Select(w => new WorkoutListItemByProgramIdModel
             {
                 Id = w.Id,
                 Name = w.Name,

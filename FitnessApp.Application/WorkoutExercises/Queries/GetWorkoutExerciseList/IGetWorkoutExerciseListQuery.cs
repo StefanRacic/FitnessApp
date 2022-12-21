@@ -2,6 +2,6 @@
 {
     public interface IGetWorkoutExerciseListQuery
     {
-        Task<List<WorkoutExerciseListModel>> Execute(int workoutId);
+        Task<IReadOnlyList<WorkoutExerciseListModel>> Execute(int workoutId);
     }
 }

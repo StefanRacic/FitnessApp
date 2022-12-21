@@ -2,6 +2,6 @@
 {
     public interface IGetProgramListQuery
     {
-        Task<List<ProgramListItemModel>> Execute();
+        Task<IReadOnlyList<ProgramListItemModel>> Execute();
     }
 }

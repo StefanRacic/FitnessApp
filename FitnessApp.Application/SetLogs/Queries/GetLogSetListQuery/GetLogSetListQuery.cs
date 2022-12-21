@@ -16,7 +16,7 @@ namespace FitnessApp.Application.LogSets.Queries.GetLogSetListQuery
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<LogSetListItemModel>> Execute(int workoutLogId)
+        public async Task<IReadOnlyList<LogSetListItemModel>> Execute(int workoutLogId)
         {
             var logSets = await _unitOfWork.SetLogRepository.GetAllAsync(sl => sl.WorkoutLog.Id == workoutLogId);
 
