@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FitnessApp.API.WorkoutLogs
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]/[action]")]
     public class WorkoutLogsController : ControllerBase
     {
         private readonly ILogger<WorkoutLogsController> _logger;
@@ -27,17 +27,14 @@ namespace FitnessApp.API.WorkoutLogs
         }
 
         [HttpGet]
-        [Route("GetWorkoutLog")]
         public async Task<WorkoutLogModel> Get(int id)
             => await _itemQuery.Execute(id);
 
         [HttpGet]
-        [Route("GetAllWorkoutLogs")]
         public async Task<IEnumerable<WorkoutLogListItemModel>> GetAll()
             => await _listQuery.Execute();
 
         [HttpPost]
-        [Route("CreateWorkoutLog")]
         public async Task Create(CreateWorkoutLogModel model)
             => await _command.Execute(model);
     }
