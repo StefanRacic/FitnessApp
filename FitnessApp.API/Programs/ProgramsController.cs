@@ -39,7 +39,7 @@ namespace FitnessApp.API.Programs
             => await _itemQuery.Execute(id);
 
         [HttpPost]
-        public async Task Create(CreateProgramModel model)
+        public async Task<ProgramModel> Create(CreateProgramModel model)
             => await _command.Execute(model);
 
         [HttpDelete]

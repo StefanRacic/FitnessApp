@@ -1,7 +1,9 @@
-﻿namespace FitnessApp.Application.Programs.Commands.CreateProgram
+﻿using FitnessApp.Application.Programs.Queries.GetProgram;
+
+namespace FitnessApp.Application.Programs.Commands.CreateProgram
 {
     public interface ICreateProgramCommand
     {
-        Task Execute(CreateProgramModel model);
+        Task<ProgramModel> Execute(CreateProgramModel model);
     }
 }
