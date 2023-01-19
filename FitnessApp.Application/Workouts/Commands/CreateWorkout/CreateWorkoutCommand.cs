@@ -1,5 +1,6 @@
 ﻿using FitnessApp.Application.Interfaces.UnitOfWork;
 using FitnessApp.Application.Workouts.Commands.CreateWorkout.WorkoutFactory;
+using FitnessApp.Application.Workouts.Queries.GetWorkoutListByProgramId;
 
 namespace FitnessApp.Application.Workouts.Commands.CreateWorkout
 {
@@ -16,7 +17,7 @@ namespace FitnessApp.Application.Workouts.Commands.CreateWorkout
             _factory = factory;
         }
 
-        public async Task Execute(CreateWorkoutModel model)
+        public async Task<WorkoutListItemByProgramIdModel> Execute(CreateWorkoutModel model)
         {
             var program = await _unitOfWork
                 .ProgramRepository
@@ -30,6 +31,13 @@ namespace FitnessApp.Application.Workouts.Commands.CreateWorkout
             await _unitOfWork.WorkoutRepository.AddAsync(workout);
 
             await _unitOfWork.CommitAsync();
+
+            return new WorkoutListItemByProgramIdModel
+            {
+                Id = workout.Id,
+                Name = model.Name,
+                Description = model.Description,
+            };
         }
     }
 }

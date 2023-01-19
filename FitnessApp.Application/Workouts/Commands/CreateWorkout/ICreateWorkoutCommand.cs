@@ -1,7 +1,9 @@
-﻿namespace FitnessApp.Application.Workouts.Commands.CreateWorkout
+﻿using FitnessApp.Application.Workouts.Queries.GetWorkoutListByProgramId;
+
+namespace FitnessApp.Application.Workouts.Commands.CreateWorkout
 {
     public interface ICreateWorkoutCommand
     {
-        Task Execute(CreateWorkoutModel model);
+        Task<WorkoutListItemByProgramIdModel> Execute(CreateWorkoutModel model);
     }
 }

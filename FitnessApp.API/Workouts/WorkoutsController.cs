@@ -43,7 +43,7 @@ namespace FitnessApp.API.Workouts
             => await _listByProgramIdQuery.ExecuteAsync(programId);
 
         [HttpPost]
-        public async Task CreateAsync(CreateWorkoutModel model)
+        public async Task<WorkoutListItemByProgramIdModel> CreateAsync(CreateWorkoutModel model)
             => await _command.Execute(model);
 
 
