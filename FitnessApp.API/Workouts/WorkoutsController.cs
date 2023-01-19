@@ -1,4 +1,5 @@
 ﻿using FitnessApp.Application.Workouts.Commands.CreateWorkout;
+using FitnessApp.Application.Workouts.Commands.RemoveWorkout;
 using FitnessApp.Application.Workouts.Queries.GetWorkout;
 using FitnessApp.Application.Workouts.Queries.GetWorkoutList;
 using FitnessApp.Application.Workouts.Queries.GetWorkoutListByProgramId;
@@ -15,19 +16,22 @@ namespace FitnessApp.API.Workouts
         private readonly IGetWorkoutListByProgramIdQuery _listByProgramIdQuery;
         private readonly IGetWorkoutQuery _itemQuery;
         private readonly ICreateWorkoutCommand _command;
+        private readonly IRemoveWorkoutCommand _removeCommand;
 
         public WorkoutsController(
             ILogger<WorkoutsController> logger,
             IGetWorkoutListQuery listQuery,
             IGetWorkoutListByProgramIdQuery listByProgramIdQuery,
             IGetWorkoutQuery itemQuery,
-            ICreateWorkoutCommand command)
+            ICreateWorkoutCommand command,
+            IRemoveWorkoutCommand removeCommand)
         {
             _logger = logger;
             _listQuery = listQuery;
             _listByProgramIdQuery = listByProgramIdQuery;
             _itemQuery = itemQuery;
             _command = command;
+            _removeCommand = removeCommand;
         }
 
         [HttpGet]
@@ -46,6 +50,8 @@ namespace FitnessApp.API.Workouts
         public async Task<WorkoutListItemByProgramIdModel> CreateAsync(CreateWorkoutModel model)
             => await _command.Execute(model);
 
-
+        [HttpDelete]
+        public async Task Remove(int id)
+           => await _removeCommand.Execute(id);
     }
 }

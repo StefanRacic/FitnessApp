@@ -22,6 +22,7 @@ using FitnessApp.Application.WorkoutLogs.Queries.GetWorkoutLog;
 using FitnessApp.Application.WorkoutLogs.Queries.GetWorkoutLogList;
 using FitnessApp.Application.Workouts.Commands.CreateWorkout;
 using FitnessApp.Application.Workouts.Commands.CreateWorkout.WorkoutFactory;
+using FitnessApp.Application.Workouts.Commands.RemoveWorkout;
 using FitnessApp.Application.Workouts.Queries.GetWorkout;
 using FitnessApp.Application.Workouts.Queries.GetWorkoutList;
 using FitnessApp.Application.Workouts.Queries.GetWorkoutListByProgramId;
@@ -86,6 +87,7 @@ namespace FitnessApp.Application
             services.AddScoped<IGetWorkoutQuery, GetWorkoutQuery>();
             services.AddScoped<IWorkoutFactory, WorkoutFactory>();
             services.AddScoped<ICreateWorkoutCommand, CreateWorkoutCommand>();
+            services.AddScoped<IRemoveWorkoutCommand, RemoveWorkoutCommand>();
 
             return services;
         }
