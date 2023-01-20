@@ -1,4 +1,5 @@
 ﻿using FitnessApp.Application.Exercises.Commands.ExerciseFactory;
+using FitnessApp.Application.Exercises.Queries.GetExercise;
 using FitnessApp.Application.Interfaces.UnitOfWork;
 
 namespace FitnessApp.Application.Exercises.Commands
@@ -16,7 +17,7 @@ namespace FitnessApp.Application.Exercises.Commands
             _factory = factory;
         }
 
-        public async Task Execute(CreateExerciseModel model)
+        public async Task<ExerciseModel> Execute(CreateExerciseModel model)
         {
             var exercise = _factory.Create(
                 model.Name,
@@ -25,6 +26,13 @@ namespace FitnessApp.Application.Exercises.Commands
             await _unitOfWork.ExerciseRepository.AddAsync(exercise);
 
             await _unitOfWork.CommitAsync();
+
+            return new ExerciseModel
+            {
+                Id = exercise.Id,
+                Name = exercise.Name,
+                Description = exercise.Description,
+            };
         }
     }
 }

@@ -1,7 +1,9 @@
-﻿namespace FitnessApp.Application.Exercises.Commands
+﻿using FitnessApp.Application.Exercises.Queries.GetExercise;
+
+namespace FitnessApp.Application.Exercises.Commands
 {
     public interface ICreateExerciseCommand
     {
-        Task Execute(CreateExerciseModel model);
+        Task<ExerciseModel> Execute(CreateExerciseModel model);
     }
 }

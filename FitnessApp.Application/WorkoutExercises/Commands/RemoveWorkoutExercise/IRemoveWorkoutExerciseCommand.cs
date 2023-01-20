@@ -1,6 +1,7 @@
 ﻿namespace FitnessApp.Application.WorkoutExercises.Commands.RemoveWorkoutExercise
 {
-    internal interface IRemoveWorkoutExercise
+    public interface IRemoveWorkoutExerciseCommand
     {
+        Task Execute(int id);
     }
 }

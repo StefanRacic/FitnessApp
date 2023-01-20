@@ -13,17 +13,20 @@ namespace FitnessApp.API.Exercises
         private readonly IGetExerciseListQuery _listQuery;
         private readonly IGetExerciseQuery _itemQuery;
         private readonly ICreateExerciseCommand _command;
+        private readonly IRemoveExerciseCommand _removeCommand;
 
         public ExercisesController(
             ILogger<ExercisesController> logger,
             IGetExerciseListQuery listQuery,
             IGetExerciseQuery itemQuery,
-            ICreateExerciseCommand command)
+            ICreateExerciseCommand command,
+            IRemoveExerciseCommand removeCommand)
         {
             _logger = logger;
             _listQuery = listQuery;
             _itemQuery = itemQuery;
             _command = command;
+            _removeCommand = removeCommand;
         }
 
         [HttpGet]
@@ -35,8 +38,10 @@ namespace FitnessApp.API.Exercises
             => await _itemQuery.ExecuteAsync(id);
 
         [HttpPost]
-        public async Task Create(CreateExerciseModel model)
+        public async Task<ExerciseModel> Create(CreateExerciseModel model)
             => await _command.Execute(model);
-
+        [HttpDelete]
+        public async Task Remove(int id)
+            => await _removeCommand.Execute(id);
     }
 }

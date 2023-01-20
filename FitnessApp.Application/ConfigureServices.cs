@@ -14,6 +14,7 @@ using FitnessApp.Application.Programs.Queries.GetProgramList;
 using FitnessApp.Application.SetLogs.Commands.CreateSetLogCommand.SetLogFactory;
 using FitnessApp.Application.WorkoutExercises.Commands.CreateWorkoutExercise;
 using FitnessApp.Application.WorkoutExercises.Commands.CreateWorkoutExercise.WorkoutExerciseFactory;
+using FitnessApp.Application.WorkoutExercises.Commands.RemoveWorkoutExercise;
 using FitnessApp.Application.WorkoutExercises.Queries.GetWorkoutExercise;
 using FitnessApp.Application.WorkoutExercises.Queries.GetWorkoutExerciseList;
 using FitnessApp.Application.WorkoutLogs.Commands.CreateWorkoutLog;
@@ -55,6 +56,7 @@ namespace FitnessApp.Application
             services.AddScoped<IGetExerciseQuery, GetExerciseQuery>();
             services.AddScoped<IExerciseFactory, ExerciseFactory>();
             services.AddScoped<ICreateExerciseCommand, CreateExerciseCommand>();
+            services.AddScoped<IRemoveExerciseCommand, RemoveExerciseCommand>();
 
             return services;
         }
@@ -76,6 +78,7 @@ namespace FitnessApp.Application
             services.AddScoped<IGetWorkoutExerciseQuery, GetWorkoutExerciseQuery>();
             services.AddScoped<IWorkoutExerciseFactory, WorkoutExerciseFactory>();
             services.AddScoped<ICreateWorkoutExerciseCommand, CreateWorkoutExerciseCommand>();
+            services.AddScoped<IRemoveWorkoutExerciseCommand, RemoveWorkoutExerciseCommand>();
 
             return services;
         }
