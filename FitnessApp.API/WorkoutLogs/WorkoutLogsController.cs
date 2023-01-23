@@ -27,12 +27,12 @@ namespace FitnessApp.API.WorkoutLogs
         }
 
         [HttpGet]
+        public async Task<IEnumerable<WorkoutLogListItemModel>> GetAll()
+           => await _listQuery.Execute();
+
+        [HttpGet("{id}")]
         public async Task<WorkoutLogModel> Get(int id)
             => await _itemQuery.Execute(id);
-
-        [HttpGet]
-        public async Task<IEnumerable<WorkoutLogListItemModel>> GetAll()
-            => await _listQuery.Execute();
 
         [HttpPost]
         public async Task Create(CreateWorkoutLogModel model)
