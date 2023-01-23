@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FitnessApp.API.Exercises
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class ExercisesController : ControllerBase
     {
         private readonly ILogger<ExercisesController> _logger;
@@ -33,14 +33,14 @@ namespace FitnessApp.API.Exercises
         public async Task<IEnumerable<ExerciseListItemModel>> GetAll()
             => await _listQuery.Execute();
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<ExerciseModel> Get(int id)
             => await _itemQuery.ExecuteAsync(id);
 
         [HttpPost]
         public async Task<ExerciseModel> Create(CreateExerciseModel model)
             => await _command.Execute(model);
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task Remove(int id)
             => await _removeCommand.Execute(id);
     }
