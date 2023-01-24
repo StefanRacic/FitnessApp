@@ -9,6 +9,7 @@ using FitnessApp.Application.LogSets.Queries.GetLogSetQuery;
 using FitnessApp.Application.Programs.Commands.CreateProgram;
 using FitnessApp.Application.Programs.Commands.CreateProgram.ProgramFactory;
 using FitnessApp.Application.Programs.Commands.RemoveProgram;
+using FitnessApp.Application.Programs.Commands.UpdateProgram;
 using FitnessApp.Application.Programs.Queries.GetProgram;
 using FitnessApp.Application.Programs.Queries.GetProgramList;
 using FitnessApp.Application.SetLogs.Commands.CreateSetLogCommand.SetLogFactory;
@@ -68,6 +69,7 @@ namespace FitnessApp.Application
             services.AddScoped<IProgramFactory, ProgramFactory>();
             services.AddScoped<ICreateProgramCommand, CreateProgramCommand>();
             services.AddScoped<IRemoveProgramCommand, RemoveProgramCommand>();
+            services.AddScoped<IUpdateProgramCommand, UpdateProgramCommand>();
 
             return services;
         }

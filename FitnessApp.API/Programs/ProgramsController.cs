@@ -1,5 +1,6 @@
 using FitnessApp.Application.Programs.Commands.CreateProgram;
 using FitnessApp.Application.Programs.Commands.RemoveProgram;
+using FitnessApp.Application.Programs.Commands.UpdateProgram;
 using FitnessApp.Application.Programs.Queries.GetProgram;
 using FitnessApp.Application.Programs.Queries.GetProgramList;
 using FitnessApp.Application.Workouts.Queries.GetWorkoutListByProgramId;
@@ -17,6 +18,7 @@ namespace FitnessApp.API.Programs
         private readonly ICreateProgramCommand _command;
         private readonly IRemoveProgramCommand _removeCommand;
         private readonly IGetWorkoutListByProgramIdQuery _workoutsQuery;
+        private readonly IUpdateProgramCommand _updateCommand;
 
         public ProgramsController(
             ILogger<ProgramsController> logger,
@@ -24,7 +26,8 @@ namespace FitnessApp.API.Programs
             IGetProgramQuery itemQuery,
             ICreateProgramCommand command,
             IRemoveProgramCommand removeCommand,
-            IGetWorkoutListByProgramIdQuery workoutsQuery)
+            IGetWorkoutListByProgramIdQuery workoutsQuery,
+            IUpdateProgramCommand updateCommand)
         {
             _logger = logger;
             _listQuery = listQuery;
@@ -32,6 +35,7 @@ namespace FitnessApp.API.Programs
             _command = command;
             _removeCommand = removeCommand;
             _workoutsQuery = workoutsQuery;
+            _updateCommand = updateCommand;
         }
 
         [HttpGet]
@@ -49,6 +53,10 @@ namespace FitnessApp.API.Programs
         [HttpPost]
         public async Task<ProgramModel> Create(CreateProgramModel model)
             => await _command.Execute(model);
+
+        [HttpPut("{id}")]
+        public async Task<ProgramModel> Update(int id, UpdateProgramModel model)
+            => await _updateCommand.Execute(id, model);
 
         [HttpDelete("{id}")]
         public async Task Remove(int id)
