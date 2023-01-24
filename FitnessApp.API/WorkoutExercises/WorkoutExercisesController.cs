@@ -30,9 +30,9 @@ namespace FitnessApp.API.WorkoutExercises
             _removeCommand = removeCommand;
         }
 
-        [HttpGet("GetAllByWorkoutId/{workoutId}")]
-        public async Task<IEnumerable<WorkoutExerciseListModel>> GetAll(int workoutId)
-            => await _listQuery.Execute(workoutId);
+        //[HttpGet("GetAllByWorkoutId/{workoutId}")]
+        //public async Task<IEnumerable<WorkoutExerciseListModel>> GetAll(int workoutId)
+        //    => await _listQuery.Execute(workoutId);
 
         [HttpGet("{id}")]
         public async Task<WorkoutExerciseModel> Get(int id)

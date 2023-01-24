@@ -1,4 +1,5 @@
-﻿using FitnessApp.Application.Workouts.Commands.CreateWorkout;
+﻿using FitnessApp.Application.WorkoutExercises.Queries.GetWorkoutExerciseList;
+using FitnessApp.Application.Workouts.Commands.CreateWorkout;
 using FitnessApp.Application.Workouts.Commands.RemoveWorkout;
 using FitnessApp.Application.Workouts.Queries.GetWorkout;
 using FitnessApp.Application.Workouts.Queries.GetWorkoutList;
@@ -13,25 +14,25 @@ namespace FitnessApp.API.Workouts
     {
         private readonly ILogger<WorkoutsController> _logger;
         private readonly IGetWorkoutListQuery _listQuery;
-        private readonly IGetWorkoutListByProgramIdQuery _listByProgramIdQuery;
         private readonly IGetWorkoutQuery _itemQuery;
         private readonly ICreateWorkoutCommand _command;
         private readonly IRemoveWorkoutCommand _removeCommand;
+        private readonly IGetWorkoutExerciseListQuery _workoutExercisesQuery;
 
         public WorkoutsController(
             ILogger<WorkoutsController> logger,
             IGetWorkoutListQuery listQuery,
-            IGetWorkoutListByProgramIdQuery listByProgramIdQuery,
             IGetWorkoutQuery itemQuery,
             ICreateWorkoutCommand command,
-            IRemoveWorkoutCommand removeCommand)
+            IRemoveWorkoutCommand removeCommand,
+            IGetWorkoutExerciseListQuery workoutExercisesQuery)
         {
             _logger = logger;
             _listQuery = listQuery;
-            _listByProgramIdQuery = listByProgramIdQuery;
             _itemQuery = itemQuery;
             _command = command;
             _removeCommand = removeCommand;
+            _workoutExercisesQuery = workoutExercisesQuery;
         }
 
         [HttpGet]
@@ -42,9 +43,9 @@ namespace FitnessApp.API.Workouts
         public async Task<WorkoutModel> Get(int id)
             => await _itemQuery.Execute(id);
 
-        [HttpGet("GetAllByProgramId/{programId}")]
-        public async Task<IEnumerable<WorkoutListItemByProgramIdModel>> GetAllByProgramIdAsync(int programId)
-            => await _listByProgramIdQuery.ExecuteAsync(programId);
+        [HttpGet("{id}/workoutExercises")]
+        public async Task<IEnumerable<WorkoutExerciseListModel>> GetAll(int id)
+            => await _workoutExercisesQuery.Execute(id);
 
         [HttpPost]
         public async Task<WorkoutListItemByProgramIdModel> CreateAsync(CreateWorkoutModel model)
