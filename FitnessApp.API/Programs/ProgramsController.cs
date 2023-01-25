@@ -54,9 +54,9 @@ namespace FitnessApp.API.Programs
         public async Task<ProgramModel> Create(CreateProgramModel model)
             => await _command.Execute(model);
 
-        [HttpPut("{id}")]
-        public async Task<ProgramModel> Update(int id, UpdateProgramModel model)
-            => await _updateCommand.Execute(id, model);
+        [HttpPut]
+        public async Task<ProgramModel> Update(UpdateProgramModel model)
+            => await _updateCommand.Execute(model);
 
         [HttpDelete("{id}")]
         public async Task Remove(int id)

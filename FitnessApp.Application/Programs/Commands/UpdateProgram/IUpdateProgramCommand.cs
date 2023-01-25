@@ -4,6 +4,6 @@ namespace FitnessApp.Application.Programs.Commands.UpdateProgram
 {
     public interface IUpdateProgramCommand
     {
-        Task<ProgramModel> Execute(int id, UpdateProgramModel model);
+        Task<ProgramModel> Execute(UpdateProgramModel model);
     }
 }

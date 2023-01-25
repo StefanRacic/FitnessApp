@@ -12,9 +12,9 @@ namespace FitnessApp.Application.Programs.Commands.UpdateProgram
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ProgramModel> Execute(int id, UpdateProgramModel model)
+        public async Task<ProgramModel> Execute(UpdateProgramModel model)
         {
-            var program = await _unitOfWork.ProgramRepository.GetAsync(p => p.Id == id);
+            var program = await _unitOfWork.ProgramRepository.GetAsync(p => p.Id == model.Id);
 
             program.Name = model.Name;
 
