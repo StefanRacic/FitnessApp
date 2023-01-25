@@ -59,8 +59,8 @@ namespace FitnessApp.API.Workouts
         public async Task Remove(int id)
            => await _removeCommand.Execute(id);
 
-        [HttpPut("{id}")]
-        public async Task<WorkoutModel> Update(int id, UpdateWorkoutModel model)
-            => await _updateCommand.Execute(id, model);
+        [HttpPut]
+        public async Task<WorkoutModel> Update(UpdateWorkoutModel model)
+            => await _updateCommand.Execute(model);
     }
 }

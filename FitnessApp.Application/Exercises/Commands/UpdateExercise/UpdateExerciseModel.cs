@@ -4,6 +4,7 @@ namespace FitnessApp.Application.Exercises.Commands.UpdateExercise
 {
     public class UpdateExerciseModel
     {
+        public int Id { get; set; }
         [Required(AllowEmptyStrings = false)]
         public string Name { get; set; }
         [Required(AllowEmptyStrings = false)]

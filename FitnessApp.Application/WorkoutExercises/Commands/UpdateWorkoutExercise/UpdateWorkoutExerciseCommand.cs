@@ -12,9 +12,9 @@ namespace FitnessApp.Application.WorkoutExercises.Commands.UpdateWorkoutExercise
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<WorkoutExerciseModel> Execute(int id, UpdateWorkoutExerciseModel model)
+        public async Task<WorkoutExerciseModel> Execute(UpdateWorkoutExerciseModel model)
         {
-            var workoutExercise = await _unitOfWork.WorkoutExerciseRepository.GetAsync(we => we.Id == id);
+            var workoutExercise = await _unitOfWork.WorkoutExerciseRepository.GetAsync(we => we.Id == model.Id);
 
             workoutExercise.Sets = model.Sets;
 

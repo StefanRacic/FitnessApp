@@ -4,6 +4,6 @@ namespace FitnessApp.Application.WorkoutExercises.Commands.UpdateWorkoutExercise
 {
     public interface IUpdateWorkoutExerciseCommand
     {
-        Task<WorkoutExerciseModel> Execute(int id, UpdateWorkoutExerciseModel model);
+        Task<WorkoutExerciseModel> Execute(UpdateWorkoutExerciseModel model);
     }
 }
