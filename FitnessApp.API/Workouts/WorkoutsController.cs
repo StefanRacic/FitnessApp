@@ -1,6 +1,7 @@
 ﻿using FitnessApp.Application.WorkoutExercises.Queries.GetWorkoutExerciseList;
 using FitnessApp.Application.Workouts.Commands.CreateWorkout;
 using FitnessApp.Application.Workouts.Commands.RemoveWorkout;
+using FitnessApp.Application.Workouts.Commands.UpdateWorkout;
 using FitnessApp.Application.Workouts.Queries.GetWorkout;
 using FitnessApp.Application.Workouts.Queries.GetWorkoutList;
 using FitnessApp.Application.Workouts.Queries.GetWorkoutListByProgramId;
@@ -18,6 +19,7 @@ namespace FitnessApp.API.Workouts
         private readonly ICreateWorkoutCommand _command;
         private readonly IRemoveWorkoutCommand _removeCommand;
         private readonly IGetWorkoutExerciseListQuery _workoutExercisesQuery;
+        private readonly IUpdateWorkoutCommand _updateCommand;
 
         public WorkoutsController(
             ILogger<WorkoutsController> logger,
@@ -25,7 +27,8 @@ namespace FitnessApp.API.Workouts
             IGetWorkoutQuery itemQuery,
             ICreateWorkoutCommand command,
             IRemoveWorkoutCommand removeCommand,
-            IGetWorkoutExerciseListQuery workoutExercisesQuery)
+            IGetWorkoutExerciseListQuery workoutExercisesQuery,
+            IUpdateWorkoutCommand updateCommand)
         {
             _logger = logger;
             _listQuery = listQuery;
@@ -33,6 +36,7 @@ namespace FitnessApp.API.Workouts
             _command = command;
             _removeCommand = removeCommand;
             _workoutExercisesQuery = workoutExercisesQuery;
+            _updateCommand = updateCommand;
         }
 
         [HttpGet]
@@ -54,5 +58,9 @@ namespace FitnessApp.API.Workouts
         [HttpDelete("{id}")]
         public async Task Remove(int id)
            => await _removeCommand.Execute(id);
+
+        [HttpPut("{id}")]
+        public async Task<WorkoutModel> Update(int id, UpdateWorkoutModel model)
+            => await _updateCommand.Execute(id, model);
     }
 }

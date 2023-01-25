@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FitnessApp.Application.Workouts.Commands.CreateWorkout
+namespace FitnessApp.Application.Workouts.Commands.UpdateWorkout
 {
-    public class CreateWorkoutModel
+    public class UpdateWorkoutModel
     {
         [Required(AllowEmptyStrings = false)]
         public string Name { get; set; }
         [Required(AllowEmptyStrings = false)]
         public string Description { get; set; }
-        public int ProgramId { get; set; }
     }
 }
