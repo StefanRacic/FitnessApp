@@ -1,5 +1,6 @@
 ﻿using FitnessApp.Application.Exercises.Commands;
 using FitnessApp.Application.Exercises.Commands.ExerciseFactory;
+using FitnessApp.Application.Exercises.Commands.UpdateExercise;
 using FitnessApp.Application.Exercises.Queries.GetExercise;
 using FitnessApp.Application.Exercises.Queries.GetExerciseList;
 using FitnessApp.Application.LogSets.Commands.CreateLogSetCommand;
@@ -60,6 +61,7 @@ namespace FitnessApp.Application
             services.AddScoped<IExerciseFactory, ExerciseFactory>();
             services.AddScoped<ICreateExerciseCommand, CreateExerciseCommand>();
             services.AddScoped<IRemoveExerciseCommand, RemoveExerciseCommand>();
+            services.AddScoped<IUpdateExerciseCommand, UpdateExerciseCommand>();
 
             return services;
         }
