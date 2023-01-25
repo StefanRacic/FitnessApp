@@ -1,5 +1,6 @@
 ﻿using FitnessApp.Application.WorkoutExercises.Commands.CreateWorkoutExercise;
 using FitnessApp.Application.WorkoutExercises.Commands.RemoveWorkoutExercise;
+using FitnessApp.Application.WorkoutExercises.Commands.UpdateWorkoutExercise;
 using FitnessApp.Application.WorkoutExercises.Queries.GetWorkoutExercise;
 using FitnessApp.Application.WorkoutExercises.Queries.GetWorkoutExerciseList;
 using Microsoft.AspNetCore.Mvc;
@@ -15,24 +16,23 @@ namespace FitnessApp.API.WorkoutExercises
         private readonly IGetWorkoutExerciseQuery _itemQuery;
         private readonly ICreateWorkoutExerciseCommand _command;
         private readonly IRemoveWorkoutExerciseCommand _removeCommand;
+        private readonly IUpdateWorkoutExerciseCommand _updateCommand;
 
         public WorkoutExercisesController(
             ILogger<WorkoutExercisesController> logger,
             IGetWorkoutExerciseListQuery listQuery,
             IGetWorkoutExerciseQuery itemQuery,
             ICreateWorkoutExerciseCommand command,
-            IRemoveWorkoutExerciseCommand removeCommand)
+            IRemoveWorkoutExerciseCommand removeCommand,
+            IUpdateWorkoutExerciseCommand updateCommand)
         {
             _logger = logger;
             _listQuery = listQuery;
             _itemQuery = itemQuery;
             _command = command;
             _removeCommand = removeCommand;
+            _updateCommand = updateCommand;
         }
-
-        //[HttpGet("GetAllByWorkoutId/{workoutId}")]
-        //public async Task<IEnumerable<WorkoutExerciseListModel>> GetAll(int workoutId)
-        //    => await _listQuery.Execute(workoutId);
 
         [HttpGet("{id}")]
         public async Task<WorkoutExerciseModel> Get(int id)
@@ -45,5 +45,9 @@ namespace FitnessApp.API.WorkoutExercises
         [HttpDelete("{id}")]
         public async Task Remove(int id)
           => await _removeCommand.Execute(id);
+
+        [HttpPut("{id}")]
+        public async Task<WorkoutExerciseModel> Update(int id, UpdateWorkoutExerciseModel model)
+            => await _updateCommand.Execute(id, model);
     }
 }
