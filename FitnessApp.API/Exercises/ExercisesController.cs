@@ -2,6 +2,7 @@
 using FitnessApp.Application.Exercises.Commands.UpdateExercise;
 using FitnessApp.Application.Exercises.Queries.GetExercise;
 using FitnessApp.Application.Exercises.Queries.GetExerciseList;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessApp.API.Exercises
@@ -33,7 +34,7 @@ namespace FitnessApp.API.Exercises
             _updateCommand = updateCommand;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public async Task<IEnumerable<ExerciseListItemModel>> GetAll()
             => await _listQuery.Execute();
 
